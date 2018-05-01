@@ -1,0 +1,6 @@
+[package]
+name = "exe"
+version = "0.1.0"
+authors = ["Thomas WACHE <thomas@wache.fr>"]
+
+[dependencies]
