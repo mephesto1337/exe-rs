@@ -56,7 +56,7 @@ macro_rules! generate_c_api {
             assert_ne!(exe_h, ::std::ptr::null_mut());
             let e = unsafe { Box::from_raw(exe_h as *mut $et) };
             let ret = match e.get_section_at(idx) {
-                Some(s) => unsafe { ::std::mem::transmute::<&str, *const ::libc::c_char>(s.name) },
+                Some(s) => s.name.as_ptr() as *const ::libc::c_char,
                 None => ::std::ptr::null()
             };
             Box::into_raw(e);
@@ -78,7 +78,6 @@ macro_rules! generate_c_api {
             let _e = unsafe { Box::from_raw(exe_h as *mut $et) };
             //::std::mem::drop(e);
         }
-
     )
 }
 
