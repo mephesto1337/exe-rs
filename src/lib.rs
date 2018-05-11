@@ -1,12 +1,8 @@
-pub trait Section {
-    fn get_flags(&self) -> u32;
-    fn get_offset(&self) -> usize;
-    fn get_size(&self) -> usize;
-}
+extern crate libc;
 
-pub trait Exe {
-    type Item: Section;
+pub mod traits;
+pub use traits::*;
 
-    fn get_number_of_sections(&self) -> usize;
-    fn get_section_at(&self, idx: usize) -> Option<&Self::Item>;
-}
+pub mod c_api;
+#[allow(unused_attributes)]
+pub use c_api::*;
