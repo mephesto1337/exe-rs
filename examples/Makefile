@@ -5,10 +5,11 @@ CFLAGS=-Wall -Werror -Wshadow -std=c99
 LD=gcc
 LDFLAGS=
 LIBS_NAME=pe elf
+DYNLIBS=-lpthread -ldl
 
 DEBUG ?= 0
 
-ifeq ($(DEBUG), 0)
+ifneq ($(DEBUG), 0)
 	CFLAGS += -ggdb -O0 -DDEBUG=$(DEBUG)
 	RELEASE_TYPE=debug
 	CARGO_FLAGS=
@@ -30,14 +31,14 @@ BIN=exe_parse
 
 
 $(BIN) : $(OBJ) $(LIBS)
-	$(LD) $(LDFLAGS) -o $@ $^ -lpthread -ldl
+	$(LD) $(LDFLAGS) -o $@ $^ $(DYNLIBS)
 
 %.o : %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
 
 %.a :
 	@echo Please build libs first
-	false
+	@false
 
 clean :
 	rm -f $(OBJ) $(BIN)
