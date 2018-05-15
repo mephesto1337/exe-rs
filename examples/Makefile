@@ -39,3 +39,5 @@ $(BIN) : $(OBJ) $(LIBS)
 	@echo Please build libs first
 	false
 
+clean :
+	rm -f $(OBJ) $(BIN)
