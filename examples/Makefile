@@ -29,6 +29,7 @@ BIN=exe_parse
 
 .SECONDARY : $(LIBS)
 
+all : $(BIN)
 
 $(BIN) : $(OBJ) $(LIBS)
 	$(LD) $(LDFLAGS) -o $@ $^ $(DYNLIBS)
