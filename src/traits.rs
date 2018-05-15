@@ -9,6 +9,7 @@ pub trait Exe<'a> {
 
     fn get_number_of_sections(&self) -> usize;
     fn get_section_at(&self, idx: usize) -> Option<&Self::Item>;
+    fn get_section_name_at(&self, idx: usize) -> Option<&str>;
     fn get_data(&self, start: usize, len: usize) -> &[u8];
     fn parse(i: &'a [u8]) -> Option<Self> where Self: Sized;
 }
