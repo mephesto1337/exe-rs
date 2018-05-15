@@ -22,7 +22,7 @@ LIBS=$(foreach libname,$(LIBS_NAME),../../$(libname)/target/$(RELEASE_TYPE)/lib$
 
 SRC=c_api.c
 OBJ=$(SRC:%.c=%.o)
-BIN=exe_parse
+BIN=../target/$(RELEASE_TYPE)/exe_parse
 
 
 .PHONY : all clean
