@@ -29,12 +29,8 @@ int main(int argc, char *const argv[]) {
     const uint8_t *data;
     struct stat sb;
     rs_object_t obj = { NULL, NULL };
-    rs_handle_t section = NULL;
+    rs_section_t *section = NULL;
     size_t nsections;
-    const char* section_name = NULL;
-    size_t section_size;
-    size_t section_off;
-    uint32_t section_flags;
     int ret = EXIT_FAILURE;
 
     if ( argc != 2 ) {
@@ -60,16 +56,13 @@ int main(int argc, char *const argv[]) {
     nsections = obj.ops->get_number_of_sections(obj.handle);
     for ( size_t idx = 0; idx < nsections; idx++ ) {
         CHK_NULL(section = obj.ops->get_section_at(obj.handle, idx));
-        CHK_NULL(section_name = obj.ops->get_section_name_at(obj.handle, idx));
-        section_flags = obj.ops->get_flags(section);
-        section_size = obj.ops->get_size(section);
-        section_off = obj.ops->get_offset(section);
 
         printf(
             "Section %02lu / %-20s : flags=%s, offset=0x%08lx, size=%lu\n",
-            idx, section_name, show_flags(section_flags), section_off, section_size
+            idx, section->name, show_flags(section->flags), section->paddr, section->size
         );
 
+        obj.ops->free_section(section);
     }
 
     ret = EXIT_SUCCESS;
