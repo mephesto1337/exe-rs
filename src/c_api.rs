@@ -16,8 +16,17 @@ pub struct CSection {
 
 #[macro_export]
 macro_rules! generate_c_api {
-    ($et:ty, $rs_get_info:ident, $rs_get_number_of_sections:ident, $rs_get_section_at:ident, $rs_get_data:ident, $rs_free_section:ident, $rs_free_exe:ident) => {
+    (
+        $et:ty,
+        $rs_get_info:ident,
+        $rs_get_number_of_sections:ident,
+        $rs_get_section_at:ident,
+        $rs_get_data:ident,
+        $rs_free_section:ident,
+        $rs_free_exe:ident
+    ) => {
         use exe::{Exe, Section};
+        use std::ffi::CString;
 
         #[no_mangle]
         pub extern "C" fn $rs_get_info<'a>(exe_h: *mut ::libc::c_void) -> *const ::libc::c_void {
@@ -25,8 +34,8 @@ macro_rules! generate_c_api {
             let e = unsafe { Box::from_raw(exe_h as *mut $et) };
             let infos = e.get_info();
             let ret = Box::into_raw(Box::new($crate::CInfo {
-                os: infos.os.as_ptr() as *const ::libc::c_char,
-                arch: infos.os.as_ptr() as *const ::libc::c_char,
+                os: CString::new(infos.os).unwrap().into_raw() as *const ::libc::c_char,
+                arch: CString::new(infos.arch).unwrap().into_raw() as *const ::libc::c_char,
                 bits: infos.bits as ::libc::size_t,
             })) as *const ::libc::c_void;
             Box::into_raw(e);
