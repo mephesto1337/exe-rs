@@ -19,6 +19,7 @@ macro_rules! generate_c_api {
     (
         $et:ty,
         $rs_get_info:ident,
+        $rs_free_info:ident,
         $rs_get_number_of_sections:ident,
         $rs_get_section_at:ident,
         $rs_get_data:ident,
@@ -40,6 +41,17 @@ macro_rules! generate_c_api {
             })) as *const ::libc::c_void;
             Box::into_raw(e);
             ret
+        }
+
+        #[no_mangle]
+        pub extern "C" fn $rs_free_info<'a>(infos_h: *mut ::libc::c_void) {
+            assert_ne!(infos_h, ::std::ptr::null_mut());
+
+            unsafe {
+                let mut infos = Box::from_raw(infos_h as *mut $crate::CInfo);
+                let _os = CString::from_raw(infos.os as *mut ::libc::c_char);
+                let _arch = CString::from_raw(infos.arch as *mut ::libc::c_char);
+            }
         }
 
         #[no_mangle]

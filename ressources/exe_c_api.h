@@ -23,6 +23,7 @@ typedef struct {
 
 typedef struct {
     rs_info_t* (*get_info)(rs_handle_t g);
+    void (*free_info)(rs_info_t *h);
     size_t (*get_number_of_sections)(rs_handle_t h);
     rs_section_t* (*get_section_at)(rs_handle_t h, size_t idx);
     const uint8_t* (*get_data)(rs_handle_t h, size_t start, size_t len);
@@ -39,6 +40,7 @@ typedef bool (*rs_parse_t)(rs_object_t *ptr, const uint8_t *data, size_t len);
 
 #define GENERATE_BINDINGS(prefix) \
     extern rs_handle_t prefix##_parse(const uint8_t *data, size_t len); \
+    extern void prefix##_free_info(rs_info_t *h); \
     extern rs_info_t* prefix##_get_info(rs_handle_t h); \
     extern size_t prefix##_get_number_of_sections(rs_handle_t h); \
     extern rs_section_t* prefix##_get_section_at(rs_handle_t h, size_t idx); \
@@ -48,6 +50,7 @@ typedef bool (*rs_parse_t)(rs_object_t *ptr, const uint8_t *data, size_t len);
     \
     const rs_ops_t prefix##_ops = { \
         .get_info = prefix##_get_info, \
+        .free_info = prefix##_free_info, \
         .get_number_of_sections = prefix##_get_number_of_sections, \
         .get_section_at = prefix##_get_section_at, \
         .get_data = prefix##_get_data, \
