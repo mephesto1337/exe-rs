@@ -8,7 +8,7 @@ pub struct CInfo {
 #[repr(C)]
 pub struct CSection {
     pub name: *const ::libc::c_char,
-    pub flags: ::libc::uint32_t,
+    pub flags: u32,
     pub paddr: ::libc::size_t,
     pub vaddr: ::libc::size_t,
     pub size: ::libc::size_t,

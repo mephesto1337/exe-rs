@@ -1,5 +1,3 @@
-extern crate libc;
-
 pub mod traits;
 pub use traits::*;
 

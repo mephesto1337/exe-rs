@@ -2,6 +2,7 @@
 name = "exe"
 version = "0.1.0"
 authors = ["Thomas WACHE <thomas@wache.fr>"]
+edition = "2021"
 
 [dependencies]
 libc = "^0.2"
