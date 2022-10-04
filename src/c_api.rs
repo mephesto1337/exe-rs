@@ -78,7 +78,7 @@ macro_rules! generate_c_api {
                         Some(n) => n.as_ptr() as *const ::libc::c_char,
                         None => ::std::ptr::null() as *const ::libc::c_char,
                     },
-                    flags: s.get_flags() as ::libc::uint32_t,
+                    flags: s.get_flags() as u32,
                     paddr: s.get_offset() as ::libc::size_t,
                     vaddr: s.get_offset() as ::libc::size_t,
                     size: s.get_size() as ::libc::size_t,
@@ -94,10 +94,10 @@ macro_rules! generate_c_api {
             exe_h: *mut ::libc::c_void,
             start: usize,
             len: usize,
-        ) -> *const ::libc::uint8_t {
+        ) -> *const u8 {
             assert_ne!(exe_h, ::std::ptr::null_mut());
             let e = unsafe { Box::from_raw(exe_h as *mut $et) };
-            let ret = e.get_data(start, len).as_ptr() as *const ::libc::uint8_t;
+            let ret = e.get_data(start, len).as_ptr().cast();
             Box::into_raw(e);
             ret
         }
